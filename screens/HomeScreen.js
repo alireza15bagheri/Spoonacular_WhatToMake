@@ -1,27 +1,66 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { colorPallete } from "../constants/colorPallete";
+import { StyleSheet, Text, View, Image } from "react-native";
+import { colorPalette } from "../constants/colorPalette";
+import { Button } from "react-native-paper";
+import { useFonts } from "expo-font";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
+  const handleSearchPress = () => {
+    navigation.navigate("Search");
+  };
+
+  const handleFavoritesPress = () => {
+    navigation.navigate("Favorites");
+  };
+
+  const handleShowRecipePress = () => {
+    navigation.navigate("RecipeDetails");
+  };
+
+  const [loaded] = useFonts({
+    Vazir: require("../fonts/Vazir.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <>
       <View style={styles.container}>
         <View style={styles.randomRecipe}>
-          <Text>Random Recipe</Text>
-          <Text>Random Recipe</Text>
-          <Text>Random Recipe</Text>
-          <Text>Random Recipe</Text>
-          <Text>Random Recipe</Text>
-          <Text>Random Recipe</Text>
-          <Text>Random Recipe</Text>
-          <Text>Random Recipe</Text>
-          <Text>Random Recipe</Text>
+          <Text style={styles.aboveImgText}>غذای تصادفی:</Text>
+          <Image source={require("../food.png")} style={styles.randomFoodImg} />
+          <Text style={styles.foodName}>نام غذا</Text>
+          <Text style={styles.foodSummary}>توضیحات غذا</Text>
+          <Button
+            buttonColor="#335c67"
+            textColor="#FFF"
+            onPress={() => handleShowRecipePress()}
+            labelStyle={styles.buttonLabel}
+          >
+            نمایش دستور پخت
+          </Button>
         </View>
         <View style={styles.section}>
-          <Text>Search Recipes</Text>
+          <Button
+            buttonColor="#335c67"
+            mode="contained"
+            onPress={() => handleSearchPress()}
+            labelStyle={styles.buttonLabel}
+          >
+            جست و جوی دستور پخت
+          </Button>
         </View>
         <View style={styles.section}>
-          <Text>Favorites</Text>
+          <Button
+            buttonColor="#335c67"
+            mode="contained"
+            onPress={() => handleFavoritesPress()}
+            labelStyle={styles.buttonLabel}
+          >
+            مورد علاقه ها
+          </Button>
         </View>
       </View>
     </>
@@ -34,26 +73,45 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#fff",
-    // alignItems: "center",
-    // justifyContent: "center",
+    backgroundColor: "#ffe866",
   },
-  randomRecipe:{
-    backgroundColor: colorPallete.beige,
+  randomRecipe: {
+    backgroundColor: colorPalette.beige,
     padding: 10,
     marginTop: 25,
     marginHorizontal: 15,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: colorPallete.darkRed,
+    borderColor: colorPalette.darkRed,
+    fontFamily: "Vazir",
+    alignItems: "center",
   },
   section: {
-    backgroundColor: colorPallete.beige,
-    padding: 10,
-    marginVertical: 25,
+    // padding: 10,
+    marginTop: 15,
     marginHorizontal: 15,
     borderRadius: 8,
-    borderWidth: 2,
-    borderColor: colorPallete.darkRed,
+    fontFamily: "Vazir",
+    borderColor: colorPalette.darkRed,
+  },
+  buttonLabel: {
+    fontFamily: "Vazir",
+  },
+  aboveImgText: {
+    marginVertical: 10,
+    fontFamily: "Vazir",
+  },
+  randomFoodImg: {
+    width: "100%",
+    height: 300,
+    borderRadius: 8,
+  },
+  foodName: {
+    marginVertical: 20,
+    fontFamily: "Vazir",
+  },
+  foodSummary: {
+    marginBottom: 20,
+    fontFamily: "Vazir",
   },
 });

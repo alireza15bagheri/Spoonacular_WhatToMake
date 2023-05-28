@@ -29,11 +29,36 @@ export default function App() {
           options={{
             headerTitle: "چی درست کنم؟!",
             headerTitleStyle: { fontFamily: "Vazir" },
+            headerStyle: { backgroundColor: "#ffe866" },
           }}
         />
-        <Stack.Screen name="RecipeDetails" component={RecipeDetailsScreen} />
-        <Stack.Screen name="Search" component={SearchScreen} />
-        <Stack.Screen name="Favorites" component={FavoritesScreen} />
+        <Stack.Screen
+          name="RecipeDetails"
+          component={RecipeDetailsScreen}
+          options={{
+            headerTitle: "جزئیات دستور پخت",
+            headerTitleStyle: { fontFamily: "Vazir" },
+            headerStyle: { backgroundColor: "#ffe866" },
+          }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            headerTitle: "جست و جو",
+            headerTitleStyle: { fontFamily: "Vazir" },
+            headerStyle: { backgroundColor: "#ffe866" },
+          }}
+        />
+        <Stack.Screen
+          name="Favorites"
+          component={FavoritesScreen}
+          options={{
+            headerTitle: "مورد علاقه ها",
+            headerTitleStyle: { fontFamily: "Vazir" },
+            headerStyle: { backgroundColor: "#ffe866" },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

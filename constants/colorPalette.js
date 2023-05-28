@@ -1,4 +1,4 @@
-export const colorPallete = {
+export const colorPalette = {
     "blue": "#335c67",
     "beige": "#fff3b0",
     "orange": "#e09f3e",
