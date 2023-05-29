@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { colorPalette } from "../constants/colorPalette";
 import { Button } from "react-native-paper";
 import { useFonts } from "expo-font";
+import { getRecipeByFoodName, getRandomRecipe } from "../services/Spoonacular";
 
 const HomeScreen = ({ navigation }) => {
   const handleSearchPress = () => {
@@ -12,8 +13,8 @@ const HomeScreen = ({ navigation }) => {
   const handleFavoritesPress = () => {
     navigation.navigate("Favorites");
   };
-
-  const handleShowRecipePress = () => {
+  
+  const handleShowRecipePress = async () => {
     navigation.navigate("RecipeDetails");
   };
 
