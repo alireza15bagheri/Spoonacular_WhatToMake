@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { colorPalette } from "../constants/colorPalette";
 import { Button } from "react-native-paper";
@@ -6,6 +6,8 @@ import { useFonts } from "expo-font";
 import { getRecipeByFoodName, getRandomRecipe } from "../services/Spoonacular";
 
 const HomeScreen = ({ navigation }) => {
+  const [randomRecipe, setRandomRecipe] = useState({});
+
   const handleSearchPress = () => {
     navigation.navigate("Search");
   };
@@ -13,14 +15,24 @@ const HomeScreen = ({ navigation }) => {
   const handleFavoritesPress = () => {
     navigation.navigate("Favorites");
   };
-  
+
   const handleShowRecipePress = async () => {
+    console.log(randomRecipe.image);
     navigation.navigate("RecipeDetails");
   };
 
   const [loaded] = useFonts({
     Vazir: require("../fonts/Vazir.ttf"),
   });
+
+  const randomRecipeRun = async () => {
+    const recipe = await getRandomRecipe();
+    setRandomRecipe(recipe.recipes[0]);
+  };
+
+  useEffect(() => {
+    randomRecipeRun();
+  }, []);
 
   if (!loaded) {
     return null;
@@ -31,9 +43,14 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.randomRecipe}>
           <Text style={styles.aboveImgText}>غذای تصادفی:</Text>
-          <Image source={require("../food.png")} style={styles.randomFoodImg} />
-          <Text style={styles.foodName}>نام غذا</Text>
-          <Text style={styles.foodSummary}>توضیحات غذا</Text>
+          <Image
+            source={{ uri: randomRecipe.image }}
+            style={styles.randomFoodImg}
+          />
+          <Text style={styles.foodName}>{randomRecipe.title}</Text>
+          <Text style={styles.foodSummary}>
+            {randomRecipe.summary?.replace(/<\/?b>/g, " ").substring(0, 170)}...
+          </Text>
           <Button
             buttonColor="#335c67"
             textColor="#FFF"
@@ -63,6 +80,16 @@ const HomeScreen = ({ navigation }) => {
             مورد علاقه ها
           </Button>
         </View>
+        <View style={styles.section}>
+          <Button
+            buttonColor="#335c67"
+            mode="contained"
+            labelStyle={styles.buttonLabel}
+            onPress={() => alert("developed and designed by Alireza Bagheri.")}
+          >
+            اطلاعات بیشتر
+          </Button>
+        </View>
       </View>
     </>
   );
@@ -89,7 +116,7 @@ const styles = StyleSheet.create({
   },
   section: {
     // padding: 10,
-    marginTop: 15,
+    marginTop: 10,
     marginHorizontal: 15,
     borderRadius: 8,
     fontFamily: "Vazir",
