@@ -49,16 +49,32 @@ const HomeScreen = ({ navigation }) => {
           />
           <Text style={styles.foodName}>{randomRecipe.title}</Text>
           <Text style={styles.foodSummary}>
-            {randomRecipe.summary?.replace(/<\/?b>/g, " ").substring(0, 170)}...
+            {randomRecipe.summary?.replace(/<\/?b>/g, " ").substring(0, 150)}...
           </Text>
-          <Button
-            buttonColor="#335c67"
-            textColor="#FFF"
-            onPress={() => handleShowRecipePress()}
-            labelStyle={styles.buttonLabel}
-          >
-            نمایش دستور پخت
-          </Button>
+          <View style={styles.randomSectionButtonsContainer}>
+            <View>
+              <Button
+                style={styles.randomSectionButton}
+                buttonColor="#335c67"
+                textColor="#FFF"
+                onPress={() => randomRecipeRun()}
+                labelStyle={styles.buttonLabel}
+              >
+                نمایش دستور پخت تصادفی جدید
+              </Button>
+            </View>
+            <View>
+              <Button
+                style={styles.randomSectionButton}
+                buttonColor="#335c67"
+                textColor="#FFF"
+                onPress={() => handleShowRecipePress()}
+                labelStyle={styles.buttonLabel}
+              >
+                نمایش دستور پخت
+              </Button>
+            </View>
+          </View>
         </View>
         <View style={styles.section}>
           <Button
@@ -100,7 +116,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
     backgroundColor: "#ffe866",
   },
   randomRecipe: {
@@ -115,7 +130,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   section: {
-    // padding: 10,
     marginTop: 10,
     marginHorizontal: 15,
     borderRadius: 8,
@@ -131,7 +145,7 @@ const styles = StyleSheet.create({
   },
   randomFoodImg: {
     width: "100%",
-    height: 300,
+    height: 230,
     borderRadius: 8,
   },
   foodName: {
@@ -141,5 +155,12 @@ const styles = StyleSheet.create({
   foodSummary: {
     marginBottom: 20,
     fontFamily: "Vazir",
+  },
+  randomSectionButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  randomSectionButton: {
+    marginHorizontal: 5,
   },
 });

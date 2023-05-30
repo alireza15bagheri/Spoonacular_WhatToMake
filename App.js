@@ -28,7 +28,9 @@ export default function App() {
           component={HomeScreen}
           options={{
             headerTitle: "چی درست کنم؟!",
-            headerTitleStyle: { fontFamily: "Vazir" },
+            headerTitleStyle: {
+              fontFamily: "Vazir",
+            },
             headerStyle: { backgroundColor: "#ffe866" },
           }}
         />
@@ -37,7 +39,9 @@ export default function App() {
           component={RecipeDetailsScreen}
           options={{
             headerTitle: "جزئیات دستور پخت",
-            headerTitleStyle: { fontFamily: "Vazir" },
+            headerTitleStyle: {
+              fontFamily: "Vazir",
+            },
             headerStyle: { backgroundColor: "#ffe866" },
           }}
         />
@@ -46,7 +50,9 @@ export default function App() {
           component={SearchScreen}
           options={{
             headerTitle: "جست و جو",
-            headerTitleStyle: { fontFamily: "Vazir" },
+            headerTitleStyle: {
+              fontFamily: "Vazir",
+            },
             headerStyle: { backgroundColor: "#ffe866" },
           }}
         />
@@ -55,7 +61,9 @@ export default function App() {
           component={FavoritesScreen}
           options={{
             headerTitle: "مورد علاقه ها",
-            headerTitleStyle: { fontFamily: "Vazir" },
+            headerTitleStyle: {
+              fontFamily: "Vazir",
+            },
             headerStyle: { backgroundColor: "#ffe866" },
           }}
         />
