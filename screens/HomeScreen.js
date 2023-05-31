@@ -17,8 +17,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const handleShowRecipePress = async () => {
-    console.log(randomRecipe.image);
-    navigation.navigate("RecipeDetails");
+    navigation.navigate("RecipeDetails", { recipeData: randomRecipe });
   };
 
   const [loaded] = useFonts({
