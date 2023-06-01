@@ -1,16 +1,14 @@
 import axios from "axios";
 const API_KEY = "a9434d57a1904567a0036de4d5388f88";
 
-const getRecipeByFoodName = () => {
-  const query = "pasta";
-
+const getRecipeByFoodName = (searchQuery) => {
   const searchRecipes = async (query, apiKey) => {
     const url = `https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&query=${query}`;
     const response = await axios.get(url);
-    return response.data.results;
+    return response;
   };
 
-  return searchRecipes(query, API_KEY);
+  return searchRecipes(searchQuery, API_KEY);
 
   // TO USE:
   // try {

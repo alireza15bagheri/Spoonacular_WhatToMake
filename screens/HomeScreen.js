@@ -96,7 +96,7 @@ const HomeScreen = ({ navigation }) => {
             Favorites
           </Button>
         </View>
-        <View style={[styles.menuButtonSection, { alignItems: "center" }]}>
+        <View style={styles.infoIconButton}>
           <IconButton
             buttonColor="#335c67"
             icon="information-outline"
@@ -165,5 +165,10 @@ const styles = StyleSheet.create({
   },
   randomSectionButton: {
     marginVertical: 5,
+  },
+  infoIconButton: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
   },
 });

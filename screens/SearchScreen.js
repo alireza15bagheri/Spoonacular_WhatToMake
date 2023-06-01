@@ -3,20 +3,49 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   KeyboardAvoidingView,
+  FlatList,
 } from "react-native";
+import { IconButton, TextInput } from "react-native-paper";
 
 import { colorPalette } from "../constants/colorPalette";
+import { getRecipeByFoodName } from "../services/Spoonacular";
+import ListItem from "../components/ListItem";
 
 const SearchScreen = () => {
-  const [text, setText] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [recipes, setRecipes] = useState(undefined);
+
+  const renderItem = ({ item }) => (
+    <ListItem title={item.title} />
+  );
+
+  const searchButtonPressHandle = async () => {
+    try {
+      const searchedRecipes = (await getRecipeByFoodName(searchText)).data
+        .results;
+      setRecipes(searchedRecipes);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
       <View style={styles.container}>
         <View style={styles.searchItems}>
-          <Text>Search Screen</Text>
+          {recipes ? (
+            <FlatList
+              // Pass list of Recipes fetched from search query of spoonacular api:
+              data={recipes}
+              // how each item should be rendered:
+              renderItem={renderItem}
+              // unique id for each item:
+              keyExtractor={(item) => item.id.toString()}
+            />
+          ) : (
+            <Text>No Recipes Found...</Text>
+          )}
         </View>
         <KeyboardAvoidingView
           style={styles.keyboardAvoidingViewContainer}
@@ -27,8 +56,17 @@ const SearchScreen = () => {
             <TextInput
               style={styles.input}
               placeholder="Search..."
-              value={text}
-              onChangeText={(value) => setText(value)}
+              value={searchText}
+              onChangeText={(text) => setSearchText(text)}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <IconButton
+              icon="magnify"
+              mode="contained"
+              color="#ff0000"
+              size={45}
+              onPress={() => searchButtonPressHandle()}
             />
           </View>
         </KeyboardAvoidingView>
@@ -50,13 +88,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   keyboardAvoidingViewContainer: {
+    flexDirection: "row",
     flex: 1,
     width: "100%",
     alignItems: "center",
+    marginBottom: 15,
   },
   inputContainer: {
-    width: "100%",
-    height: 60,
+    flex: 10,
+    height: 80,
     backgroundColor: colorPalette.appBackground,
     bottom: 0,
     left: 0,
@@ -73,5 +113,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     alignSelf: "flex-start",
+  },
+  buttonContainer: {
+    flex: 2,
+    paddingVertical: 2,
+    height: 60,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingRight: 25,
   },
 });
