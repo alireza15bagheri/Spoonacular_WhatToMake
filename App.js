@@ -1,8 +1,7 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useFonts } from "expo-font";
+import { colorPalette } from "./constants/colorPalette";
 
 import SearchScreen from "./screens/SearchScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -13,7 +12,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [loaded] = useFonts({
-    Vazir: require("./fonts/Vazir.ttf"),
+    Montserrat: require("./fonts/Montserrat-Regular.ttf"),
   });
 
   if (!loaded) {
@@ -27,44 +26,44 @@ export default function App() {
           name="Home"
           component={HomeScreen}
           options={{
-            headerTitle: "چی درست کنم؟!",
+            headerTitle: "What To Cook?!",
             headerTitleStyle: {
-              fontFamily: "Vazir",
+              fontFamily: "Montserrat",
             },
-            headerStyle: { backgroundColor: "#ffe866" },
+            headerStyle: { backgroundColor: colorPalette.appBackground },
           }}
         />
         <Stack.Screen
           name="RecipeDetails"
           component={RecipeDetailsScreen}
           options={{
-            headerTitle: "جزئیات دستور پخت",
+            headerTitle: "Recipe Details",
             headerTitleStyle: {
-              fontFamily: "Vazir",
+              fontFamily: "Montserrat",
             },
-            headerStyle: { backgroundColor: "#ffe866" },
+            headerStyle: { backgroundColor: colorPalette.appBackground },
           }}
         />
         <Stack.Screen
           name="Search"
           component={SearchScreen}
           options={{
-            headerTitle: "جست و جو",
+            headerTitle: "Search Recipes",
             headerTitleStyle: {
-              fontFamily: "Vazir",
+              fontFamily: "Montserrat",
             },
-            headerStyle: { backgroundColor: "#ffe866" },
+            headerStyle: { backgroundColor: colorPalette.appBackground },
           }}
         />
         <Stack.Screen
           name="Favorites"
           component={FavoritesScreen}
           options={{
-            headerTitle: "مورد علاقه ها",
+            headerTitle: "Favorite Recipes",
             headerTitleStyle: {
-              fontFamily: "Vazir",
+              fontFamily: "Montserrat",
             },
-            headerStyle: { backgroundColor: "#ffe866" },
+            headerStyle: { backgroundColor: colorPalette.appBackground },
           }}
         />
       </Stack.Navigator>

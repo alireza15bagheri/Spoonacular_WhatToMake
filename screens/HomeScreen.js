@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { colorPalette } from "../constants/colorPalette";
-import { Button } from "react-native-paper";
+import { Button, IconButton } from "react-native-paper";
 import { useFonts } from "expo-font";
-import { getRecipeByFoodName, getRandomRecipe } from "../services/Spoonacular";
+
+import { colorPalette } from "../constants/colorPalette";
+import { getRandomRecipe } from "../services/Spoonacular";
 
 const HomeScreen = ({ navigation }) => {
   const [randomRecipe, setRandomRecipe] = useState({});
@@ -21,7 +22,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const [loaded] = useFonts({
-    Vazir: require("../fonts/Vazir.ttf"),
+    Montserrat: require("../fonts/Montserrat-Regular.ttf"),
   });
 
   const randomRecipeRun = async () => {
@@ -41,14 +42,14 @@ const HomeScreen = ({ navigation }) => {
     <>
       <View style={styles.container}>
         <View style={styles.randomRecipe}>
-          <Text style={styles.aboveImgText}>غذای تصادفی:</Text>
+          <Text style={styles.aboveImgText}>Random Food</Text>
           <Image
             source={{ uri: randomRecipe.image }}
             style={styles.randomFoodImg}
           />
           <Text style={styles.foodName}>{randomRecipe.title}</Text>
           <Text style={styles.foodSummary}>
-            {randomRecipe.summary?.replace(/<\/?b>/g, " ").substring(0, 150)}...
+            {randomRecipe.summary?.replace(/<\/?b>/g, " ").substring(0, 135)}...
           </Text>
           <View style={styles.randomSectionButtonsContainer}>
             <View>
@@ -59,7 +60,7 @@ const HomeScreen = ({ navigation }) => {
                 onPress={() => randomRecipeRun()}
                 labelStyle={styles.buttonLabel}
               >
-                نمایش دستور پخت تصادفی جدید
+                New Random Food Recipe
               </Button>
             </View>
             <View>
@@ -70,40 +71,42 @@ const HomeScreen = ({ navigation }) => {
                 onPress={() => handleShowRecipePress()}
                 labelStyle={styles.buttonLabel}
               >
-                نمایش دستور پخت
+                Show Food Recipe
               </Button>
             </View>
           </View>
         </View>
-        <View style={styles.section}>
+        <View style={styles.menuButtonSection}>
           <Button
             buttonColor="#335c67"
             mode="contained"
             onPress={() => handleSearchPress()}
             labelStyle={styles.buttonLabel}
           >
-            جست و جوی دستور پخت
+            Search Recipes
           </Button>
         </View>
-        <View style={styles.section}>
+        <View style={styles.menuButtonSection}>
           <Button
             buttonColor="#335c67"
             mode="contained"
             onPress={() => handleFavoritesPress()}
             labelStyle={styles.buttonLabel}
           >
-            مورد علاقه ها
+            Favorites
           </Button>
         </View>
-        <View style={styles.section}>
-          <Button
+        <View style={[styles.menuButtonSection, { alignItems: "center" }]}>
+          <IconButton
             buttonColor="#335c67"
+            icon="information-outline"
+            size={40}
             mode="contained"
             labelStyle={styles.buttonLabel}
             onPress={() => alert("developed and designed by Alireza Bagheri.")}
           >
-            اطلاعات بیشتر
-          </Button>
+            Info
+          </IconButton>
         </View>
       </View>
     </>
@@ -115,7 +118,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffe866",
+    backgroundColor: colorPalette.appBackground,
   },
   randomRecipe: {
     backgroundColor: colorPalette.beige,
@@ -125,22 +128,23 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 2,
     borderColor: colorPalette.darkRed,
-    fontFamily: "Vazir",
+    fontFamily: "Montserrat",
     alignItems: "center",
   },
-  section: {
+  menuButtonSection: {
     marginTop: 10,
-    marginHorizontal: 15,
+    marginHorizontal: 95,
     borderRadius: 8,
-    fontFamily: "Vazir",
     borderColor: colorPalette.darkRed,
   },
   buttonLabel: {
-    fontFamily: "Vazir",
+    fontFamily: "Montserrat",
+    fontWeight: 700,
   },
   aboveImgText: {
     marginVertical: 10,
-    fontFamily: "Vazir",
+    fontFamily: "Montserrat",
+    fontWeight: 700,
   },
   randomFoodImg: {
     width: "100%",
@@ -149,17 +153,17 @@ const styles = StyleSheet.create({
   },
   foodName: {
     marginVertical: 20,
-    fontFamily: "Vazir",
+    fontFamily: "Montserrat",
   },
   foodSummary: {
     marginBottom: 20,
-    fontFamily: "Vazir",
+    fontFamily: "Montserrat",
   },
   randomSectionButtonsContainer: {
-    flexDirection: "row",
     justifyContent: "space-between",
+    width: "70%",
   },
   randomSectionButton: {
-    marginHorizontal: 5,
+    marginVertical: 5,
   },
 });

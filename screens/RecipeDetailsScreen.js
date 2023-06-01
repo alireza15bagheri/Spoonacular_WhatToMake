@@ -1,25 +1,29 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+
 import { colorPalette } from "../constants/colorPalette";
 
 const RecipeDetailsScreen = ({ route }) => {
   const recipeData = route.params.recipeData;
 
   // ingredients variable which defined below contains an array of objects of each ingredient different information:
-  const ingredients = recipeData.extendedIngredients;
-  console.log(
-    ingredients.map((item) => {
-      return `${item.name} - ${item.amount} ${item.unit}`;
-    })
-  );
+  const ingredients = recipeData.extendedIngredients.map((item) => {
+    return `${item.name} - ${item.amount} ${item.unit}`;
+  });
+
+  const instructions = recipeData.instructions;
+
+  const sourceUrl = recipeData.spoonacularSourceUrl;
 
   const summaryText = recipeData.summary
     ?.replace(/<\/?b>/g, " ")
     .replace(/<a.*?>(.*?)<\/a>/gi, "");
 
+    // Remove Last Sentence which is the source link from summary:
   const sentences = summaryText.split(". ");
   sentences.pop();
   const finalSummaryText = sentences.join(". ") + ".";
+
   return (
     <>
       <View style={styles.mainContainer}>
@@ -27,28 +31,18 @@ const RecipeDetailsScreen = ({ route }) => {
           <View style={styles.detailsContainer}>
             <Image style={styles.FoodImg} source={{ uri: recipeData.image }} />
             <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{recipeData.title}</Text>
+              <Text style={styles.sectionTitle}>{recipeData.title}</Text>
             </View>
             <View style={styles.summary}>
-              <Text>{finalSummaryText}</Text>
+              <Text style={styles.sectionText}>{finalSummaryText}</Text>
             </View>
             <View style={styles.ingredientsContainer}>
-              <Text style={styles.ingredientsTitle}>Ingredients:</Text>
-              <Text>FOOD INGREDIENTS:</Text>
-              <Text>Ingredient Item</Text>
-              <Text>Ingredient Item</Text>
-              <Text>Ingredient Item</Text>
-              <Text>Ingredient Item</Text>
-              <Text>Ingredient Item</Text>
-              <Text>Ingredient Item</Text>
-              <Text>Ingredient Item</Text>
-              <Text>Ingredient Item</Text>
-              <Text>Ingredient Item</Text>
-              <Text>Ingredient Item</Text>
-              <Text>Ingredient Item</Text>
+              <Text style={styles.sectionTitle}>INGREDIENTS</Text>
+              <Text style={styles.sectionText}>{ingredients.join("\n")}</Text>
             </View>
             <View style={styles.recipe}>
-              <Text>Recipe:</Text>
+              <Text style={styles.sectionTitle}>Recipe</Text>
+              <Text style={styles.sectionText}>{instructions.replace(/<\/?ol>/gi, " ").replace(/<li>/gi, "--").replace(/<\/?li>/gi, "\n\n")}</Text>
             </View>
           </View>
         </ScrollView>
@@ -62,12 +56,12 @@ export default RecipeDetailsScreen;
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: "#ffe866",
+    backgroundColor: colorPalette.appBackground,
+    paddingBottom: 5
   },
   container: {
     flex: 1,
-    backgroundColor: "#ffe866",
-    // alignItems: "center",
+    backgroundColor: colorPalette.appBackground,
   },
   detailsContainer: {
     backgroundColor: colorPalette.beige,
@@ -77,8 +71,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 2,
     borderColor: colorPalette.darkRed,
-    fontFamily: "Vazir",
-    // alignItems: "center",
   },
   FoodImg: {
     width: "100%",
@@ -99,11 +91,16 @@ const styles = StyleSheet.create({
   ingredientsContainer: {
     marginTop: 15,
   },
-  ingredientsTitle: {
+  sectionTitle: {
     textAlign: "center",
     fontWeight: 600,
+    fontSize: 18
   },
   recipe: {
     marginTop: 25,
   },
+  sectionText: {
+    marginTop: 15,
+    fontSize: 16
+  }
 });
