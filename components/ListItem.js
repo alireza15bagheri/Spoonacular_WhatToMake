@@ -1,10 +1,44 @@
-import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { IconButton } from "react-native-paper";
 
-const ListItem = ({ title }) => {
+import { getRecipeById } from "../services/Spoonacular";
+
+const ListItem = ({ title, itemId, navigation }) => {
+  const [recipe, setRecipe] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      const fetchedRecipe = await getRecipeById(itemId);
+      setRecipe(fetchedRecipe);
+      setLoading(false);
+    };
+    fetchRecipe();
+  }, []);
+
+  const onRecipeDetailsPressHandler = async () => {
+    const result = await getRecipeById(itemId);
+    // console.log(result);
+    navigation.navigate("RecipeDetails", { recipeData: result });
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
+      {!loading && (
+        <>
+          <IconButton
+            icon="dots-horizontal"
+            mode="contained"
+            size={35}
+            onPress={() => onRecipeDetailsPressHandler()}
+          />
+          <Text style={styles.title}>
+            {title}
+            {itemId}
+          </Text>
+        </>
+      )}
     </View>
   );
 };
@@ -20,6 +54,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
+    paddingRight: 130,
   },
 });
 

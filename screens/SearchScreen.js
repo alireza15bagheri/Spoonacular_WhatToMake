@@ -12,12 +12,12 @@ import { colorPalette } from "../constants/colorPalette";
 import { getRecipeByFoodName } from "../services/Spoonacular";
 import ListItem from "../components/ListItem";
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
   const [searchText, setSearchText] = useState("");
   const [recipes, setRecipes] = useState(undefined);
 
   const renderItem = ({ item }) => (
-    <ListItem title={item.title} />
+    <ListItem title={item.title} itemId={item.id} navigation={navigation} />
   );
 
   const searchButtonPressHandle = async () => {
@@ -64,7 +64,6 @@ const SearchScreen = () => {
             <IconButton
               icon="magnify"
               mode="contained"
-              color="#ff0000"
               size={45}
               onPress={() => searchButtonPressHandle()}
             />
