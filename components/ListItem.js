@@ -35,7 +35,6 @@ const ListItem = ({ title, itemId, navigation }) => {
           />
           <Text style={styles.title}>
             {title}
-            {itemId}
           </Text>
         </>
       )}
