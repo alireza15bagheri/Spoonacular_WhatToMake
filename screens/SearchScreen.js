@@ -24,7 +24,11 @@ const SearchScreen = ({ navigation }) => {
     try {
       const searchedRecipes = (await getRecipeByFoodName(searchText)).data
         .results;
-      setRecipes(searchedRecipes);
+      if (searchedRecipes == []) {
+        setRecipes(undefined);
+      } else {
+        setRecipes(searchedRecipes);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -34,7 +38,7 @@ const SearchScreen = ({ navigation }) => {
     <>
       <View style={styles.container}>
         <View style={styles.searchItems}>
-          {recipes ? (
+          {Array.isArray(recipes) && recipes.length != 0 ? (
             <FlatList
               // Pass list of Recipes fetched from search query of spoonacular api:
               data={recipes}
@@ -44,7 +48,9 @@ const SearchScreen = ({ navigation }) => {
               keyExtractor={(item) => item.id.toString()}
             />
           ) : (
-            <Text>No Recipes Found...</Text>
+            <Text style={{ fontSize: 20, marginTop: 60 }}>
+              No Recipes Found... {"\u{1F61E}"}{" "}
+            </Text>
           )}
         </View>
         <KeyboardAvoidingView

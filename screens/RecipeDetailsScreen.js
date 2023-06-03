@@ -66,15 +66,15 @@ const RecipeDetailsScreen = ({ route }) => {
       console.log(e);
     }
     // Show All Keys
-    AsyncStorage.getAllKeys()
-      .then((keys) => {
-        return AsyncStorage.multiGet(keys).then((result) => {
-          console.log(result);
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // AsyncStorage.getAllKeys()
+    //   .then((keys) => {
+    //     return AsyncStorage.multiGet(keys).then((result) => {
+    //       console.log(result);
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   };
 
   const removeFromFavoritesOnPressHandler = async () => {
@@ -89,15 +89,15 @@ const RecipeDetailsScreen = ({ route }) => {
     }
 
     // Show All Keys
-    AsyncStorage.getAllKeys()
-      .then((keys) => {
-        return AsyncStorage.multiGet(keys).then((result) => {
-          console.log(result);
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // AsyncStorage.getAllKeys()
+    //   .then((keys) => {
+    //     return AsyncStorage.multiGet(keys).then((result) => {
+    //       console.log(result);
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   };
 
   return (
