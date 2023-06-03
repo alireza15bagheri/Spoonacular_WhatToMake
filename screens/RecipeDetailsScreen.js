@@ -1,5 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import {
+  Linking,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+} from "react-native";
+import { Button } from "react-native-paper";
 
 import { colorPalette } from "../constants/colorPalette";
 
@@ -12,6 +20,7 @@ const RecipeDetailsScreen = ({ route }) => {
   });
 
   const instructions = recipeData.instructions;
+  const recipeId = recipeData.id;
 
   const sourceUrl = recipeData.spoonacularSourceUrl;
 
@@ -19,10 +28,16 @@ const RecipeDetailsScreen = ({ route }) => {
     ?.replace(/<\/?b>/g, " ")
     .replace(/<a.*?>(.*?)<\/a>/gi, "");
 
-    // Remove Last Sentence which is the source link from summary:
+  // Remove Last Sentence which is the source link from summary:
   const sentences = summaryText.split(". ");
   sentences.pop();
   const finalSummaryText = sentences.join(". ") + ".";
+
+  const openSourceOnPressHandler = (sourceURL) => {
+    Linking.openURL(sourceURL).catch((err) =>
+      console.error("An error occurred: ", err)
+    );
+  };
 
   return (
     <>
@@ -42,7 +57,19 @@ const RecipeDetailsScreen = ({ route }) => {
             </View>
             <View style={styles.recipe}>
               <Text style={styles.sectionTitle}>Recipe</Text>
-              <Text style={styles.sectionText}>{instructions.replace(/<\/?ol>/gi, " ").replace(/<li>/gi, "--").replace(/<\/?li>/gi, "\n\n")}</Text>
+              <Text style={styles.sectionText}>
+                {instructions
+                  .replace(/<\/?ol>/gi, " ")
+                  .replace(/<li>/gi, "--")
+                  .replace(/<\/?li>/gi, "\n\n")}
+              </Text>
+            </View>
+
+            <View style={styles.buttonsContainer}>
+              <Button buttonColor={colorPalette.blue} mode="contained" onPress={() => openSourceOnPressHandler(sourceUrl)}>View Source</Button>
+            </View>
+            <View style={styles.buttonsContainer}>
+              <Button buttonColor={colorPalette.blue} mode="contained">Add To Favorites</Button>
             </View>
           </View>
         </ScrollView>
@@ -57,7 +84,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: colorPalette.appBackground,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   container: {
     flex: 1,
@@ -71,6 +98,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 2,
     borderColor: colorPalette.darkRed,
+  },
+  buttonsContainer: {
+    paddingHorizontal: 50,
+    paddingTop:15,
   },
   FoodImg: {
     width: "100%",
@@ -94,13 +125,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     textAlign: "center",
     fontWeight: 600,
-    fontSize: 18
+    fontSize: 18,
   },
   recipe: {
     marginTop: 25,
   },
   sectionText: {
     marginTop: 15,
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });

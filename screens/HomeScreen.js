@@ -55,7 +55,7 @@ const HomeScreen = ({ navigation }) => {
             <View>
               <Button
                 style={styles.randomSectionButton}
-                buttonColor="#335c67"
+                buttonColor={colorPalette.blue}
                 textColor="#FFF"
                 onPress={() => randomRecipeRun()}
                 labelStyle={styles.buttonLabel}
@@ -66,7 +66,7 @@ const HomeScreen = ({ navigation }) => {
             <View>
               <Button
                 style={styles.randomSectionButton}
-                buttonColor="#335c67"
+                buttonColor={colorPalette.blue}
                 textColor="#FFF"
                 onPress={() => handleShowRecipePress()}
                 labelStyle={styles.buttonLabel}
@@ -78,7 +78,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <View style={styles.menuButtonSection}>
           <Button
-            buttonColor="#335c67"
+            buttonColor={colorPalette.blue}
             mode="contained"
             onPress={() => handleSearchPress()}
             labelStyle={styles.buttonLabel}
@@ -88,7 +88,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <View style={styles.menuButtonSection}>
           <Button
-            buttonColor="#335c67"
+            buttonColor={colorPalette.blue}
             mode="contained"
             onPress={() => handleFavoritesPress()}
             labelStyle={styles.buttonLabel}
@@ -98,7 +98,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <View style={styles.infoIconButton}>
           <IconButton
-            buttonColor="#335c67"
+            buttonColor={colorPalette.blue}
             icon="information-outline"
             size={40}
             mode="contained"
