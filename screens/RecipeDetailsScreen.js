@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Linking,
   StyleSheet,
@@ -8,11 +8,13 @@ import {
   Image,
 } from "react-native";
 import { Button } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { colorPalette } from "../constants/colorPalette";
 
 const RecipeDetailsScreen = ({ route }) => {
   const recipeData = route.params.recipeData;
+  const [foodIsFavorite, setFoodIsFavorite] = useState(false);
 
   // ingredients variable which defined below contains an array of objects of each ingredient different information:
   const ingredients = recipeData.extendedIngredients.map((item) => {
@@ -20,7 +22,7 @@ const RecipeDetailsScreen = ({ route }) => {
   });
 
   const instructions = recipeData.instructions;
-  const recipeId = recipeData.id;
+  const recipeId = recipeData.id.toString();
 
   const sourceUrl = recipeData.spoonacularSourceUrl;
 
@@ -37,6 +39,65 @@ const RecipeDetailsScreen = ({ route }) => {
     Linking.openURL(sourceURL).catch((err) =>
       console.error("An error occurred: ", err)
     );
+  };
+
+  // Check if The Food Is in Favorites List or Not:
+  useEffect(() => {
+    const getFoodIsFavorite = async () => {
+      try {
+        const value = await AsyncStorage.getItem(recipeId.toString());
+        setFoodIsFavorite(value !== null);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getFoodIsFavorite();
+  }, [recipeId]);
+
+  const addToFavoritesOnPressHandler = async (foodId) => {
+    try {
+      const value = await AsyncStorage.getItem(foodId.toString());
+      if (value == null) {
+        await AsyncStorage.setItem(foodId, foodId);
+        setFoodIsFavorite(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    // Show All Keys
+    AsyncStorage.getAllKeys()
+      .then((keys) => {
+        return AsyncStorage.multiGet(keys).then((result) => {
+          console.log(result);
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const removeFromFavoritesOnPressHandler = async () => {
+    try {
+      const value = await AsyncStorage.getItem(recipeId.toString());
+      if (value != null) {
+        await AsyncStorage.removeItem(recipeId.toString());
+        setFoodIsFavorite(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    // Show All Keys
+    AsyncStorage.getAllKeys()
+      .then((keys) => {
+        return AsyncStorage.multiGet(keys).then((result) => {
+          console.log(result);
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -66,10 +127,28 @@ const RecipeDetailsScreen = ({ route }) => {
             </View>
 
             <View style={styles.buttonsContainer}>
-              <Button buttonColor={colorPalette.blue} mode="contained" onPress={() => openSourceOnPressHandler(sourceUrl)}>View Source</Button>
+              <Button
+                buttonColor={colorPalette.blue}
+                mode="contained"
+                onPress={() => openSourceOnPressHandler(sourceUrl)}
+              >
+                View Source
+              </Button>
             </View>
             <View style={styles.buttonsContainer}>
-              <Button buttonColor={colorPalette.blue} mode="contained">Add To Favorites</Button>
+              <Button
+                buttonColor={
+                  foodIsFavorite ? colorPalette.red : colorPalette.blue
+                }
+                textColor="#FFF"
+                onPress={() =>
+                  foodIsFavorite
+                    ? removeFromFavoritesOnPressHandler(recipeId)
+                    : addToFavoritesOnPressHandler(recipeId)
+                }
+              >
+                {foodIsFavorite ? "Remove From Favorites" : "Add To Favorites"}
+              </Button>
             </View>
           </View>
         </ScrollView>
@@ -101,7 +180,7 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     paddingHorizontal: 50,
-    paddingTop:15,
+    paddingTop: 15,
   },
   FoodImg: {
     width: "100%",
